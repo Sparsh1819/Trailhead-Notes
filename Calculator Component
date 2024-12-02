@@ -1,0 +1,217 @@
+HTML---------------------------------------------------------------------------
+
+<template>
+    <div class="calculator">
+        <h1 class="title">Advanced Calculator</h1>
+        <div class="input-container">
+            <label for="firstNumber">First Number:</label>
+            <input id="firstNumber" type="number" data-field="firstNumber" onchange={handleInputChange} />
+        </div>
+        <div class="input-container">
+            <label for="secondNumber">Second Number:</label>
+            <input id="secondNumber" type="number" data-field="secondNumber" onchange={handleInputChange} />
+        </div>
+        <div class="button-container">
+            <button class="calc-button" onclick={handleAdd}>Add</button>
+            <button class="calc-button" onclick={handleSubtract}>Subtract</button>
+            <button class="calc-button" onclick={handleMultiply}>Multiply</button>
+            <button class="calc-button" onclick={handleDivide}>Divide</button>
+            <button class="calc-button" onclick={handleModulus}>Modulus</button>
+            <button class="calc-button" onclick={handleSquareRoot}>Square Root</button>
+            <button class="calc-button" onclick={handlePower}>Power</button>
+            <button class="calc-button" onclick={handleAbsoluteValue}>Absolute Value</button>
+            <button class="calc-button" onclick={handleClear}>Clear</button>
+            <button class="calc-button" onclick={handleToggleSign}>Toggle Sign</button>
+            <button class="calc-button" onclick={handlePercentage}>Percentage</button>
+        </div>
+        <div class="result-container">
+            <h2 class="result-text">Result: <span class="result">{result}</span></h2>
+        </div>
+    </div>
+</template>
+
+
+JS----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import { LightningElement, track } from 'lwc';
+
+export default class AdvancedCalculator extends LightningElement {
+    @track firstNumber = 0;
+    @track secondNumber = 0;
+    @track result = '';
+
+    handleInputChange(event) {
+        const field = event.target.dataset.field;
+        this[field] = parseFloat(event.target.value) || 0;
+    }
+
+    handleAdd() {
+        this.result = this.firstNumber + this.secondNumber;
+    }
+
+    handleSubtract() {
+        this.result = this.firstNumber - this.secondNumber;
+    }
+
+    handleMultiply() {
+        this.result = this.firstNumber * this.secondNumber;
+    }
+
+    handleDivide() {
+        if (this.secondNumber !== 0) {
+            this.result = this.firstNumber / this.secondNumber;
+        } else {
+            this.result = 'Error: Division by zero';
+        }
+    }
+
+    handleModulus() {
+        this.result = this.firstNumber % this.secondNumber;
+    }
+
+    handleSquareRoot() {
+        if (this.firstNumber >= 0) {
+            this.result = Math.sqrt(this.firstNumber);
+        } else {
+            this.result = 'Error: Negative number';
+        }
+    }
+
+    handlePower() {
+        this.result = Math.pow(this.firstNumber, this.secondNumber);
+    }
+
+    handleAbsoluteValue() {
+        this.result = Math.abs(this.firstNumber);
+    }
+
+    handleClear() {
+        this.firstNumber = 0;
+        this.secondNumber = 0;
+        this.result = '';
+    }
+
+    handleToggleSign() {
+        this.firstNumber = -this.firstNumber;
+        this.result = this.firstNumber;
+    }
+
+    handlePercentage() {
+        this.result = (this.firstNumber * this.secondNumber) / 100;
+    }
+}
+
+
+CSS-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+.calculator {
+    width: 320px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    overflow: hidden;
+}
+
+.title {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.input-container {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+    border-color: #4CAF50;
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.calc-button {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    outline: none;
+}
+
+.calc-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.calc-button:active {
+    background-color: #388e3c;
+    transform: translateY(1px);
+}
+
+.result-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-text {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.result {
+    font-weight: bold;
+    font-size: 24px;
+    color: #007bff;
+}
+
+
+XML----------------------------------------------------------------------------------------------------------------------------------------------
+
+<?xml version="1.0"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+	<apiVersion>61.0</apiVersion>
+	<isExposed>true</isExposed>
+	<targets>
+		<target>lightning__AppPage</target>
+		<target>lightning__HomePage</target>
+		<target>lightning__RecordPage</target>
+		<target>lightning__Tab</target>
+	</targets>
+</LightningComponentBundle>
