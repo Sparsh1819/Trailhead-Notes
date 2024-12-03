@@ -105,7 +105,7 @@ export default class AdvancedCalculator extends LightningElement {
 CSS-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 .calculator {
-    width: 320px;
+    width: 100%;
     margin: auto;
     padding: 20px;
     background-color: #ffffff;
